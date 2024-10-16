@@ -1,0 +1,318 @@
+{
+  "cities": [
+    {
+      "id": 1,
+      "destinationId": 1,
+      "name": {
+        "en": "Caruaru",
+        "es": "Caruaru",
+        "pt-BR": "Caruaru",
+        "other": "Caruaru"
+      }
+    },
+    {
+      "id": 2,
+      "destinationId": 2,
+      "name": {
+        "en": "Caruara",
+        "es": "Caruara",
+        "pt-BR": "Caruara",
+        "other": "Caruara"
+      }
+    },
+    {
+      "id": 3,
+      "destinationId": 3,
+      "name": {
+        "en": "Caruare",
+        "es": "Caruare",
+        "pt-BR": "Caruare",
+        "other": "Caruare"
+      }
+    },
+    {
+      "id": 4,
+      "destinationId": 4,
+      "name": {
+        "en": "Caruari",
+        "es": "Caruari",
+        "pt-BR": "Caruari",
+        "other": "Caruari"
+      }
+    },
+    {
+      "id": 5,
+      "destinationId": 5,
+      "name": {
+        "en": "Caruaro",
+        "es": "Caruaro",
+        "pt-BR": "Caruaro",
+        "other": "Caruaro"
+      }
+    },
+    {
+      "id": 6,
+      "destinationId": 6,
+      "name": {
+        "en": "Caruarae",
+        "es": "Caruarae",
+        "pt-BR": "Caruarae",
+        "other": "Caruarae"
+      }
+    },
+    {
+      "id": 7,
+      "destinationId": 7,
+      "name": {
+        "en": "Caruarai",
+        "es": "Caruarai",
+        "pt-BR": "Caruarai",
+        "other": "Caruarai"
+      }
+    },
+    {
+      "id": 8,
+      "destinationId": 8,
+      "name": {
+        "en": "Caruarao",
+        "es": "Caruarao",
+        "pt-BR": "Caruarao",
+        "other": "Caruarao"
+      }
+    },
+    {
+      "id": 9,
+      "destinationId": 9,
+      "name": {
+        "en": "Caruarea",
+        "es": "Caruarea",
+        "pt-BR": "Caruarea",
+        "other": "Caruarea"
+      }
+    },
+    {
+      "id": 10,
+      "destinationId": 10,
+      "name": {
+        "en": "Caruarei",
+        "es": "Caruarei",
+        "pt-BR": "Caruarei",
+        "other": "Caruarei"
+      }
+    },
+    {
+      "id": 11,
+      "destinationId": 11,
+      "name": {
+        "en": "Caruareo",
+        "es": "Caruareo",
+        "pt-BR": "Caruareo",
+        "other": "Caruareo"
+      }
+    },
+    {
+      "id": 12,
+      "destinationId": 12,
+      "name": {
+        "en": "Caruareu",
+        "es": "Caruareu",
+        "pt-BR": "Caruareu",
+        "other": "Caruareu"
+      }
+    },
+    {
+      "id": 13,
+      "destinationId": 13,
+      "name": {
+        "en": "Caruaria",
+        "es": "Caruaria",
+        "pt-BR": "Caruaria",
+        "other": "Caruaria"
+      }
+    }
+  ],
+  "login": [
+    {
+      "login": "logindehoje@email.com",
+      "password": "123",
+      "id": 1
+    }
+  ],
+  "new-account": [
+    {
+      "password": "123",
+      "userTerms": true,
+      "id": 1
+    }
+  ],
+  "guestList":[
+    {
+      "name":"Júlio",
+      "status":"Confirmado",
+      "phone":"(81) 9999-9999",
+      "email":"julio@email.com",
+      "answerDate":"02/02/2023"
+    },
+    {
+      "name":"Júlio",
+      "status":"Recusado",
+      "phone":"(81) 9999-9999",
+      "email":"julio@email.com",
+      "answerDate":"02/02/2023"
+    },
+    {
+      "name":"Júlio",
+      "status":"Confirmado",
+      "phone":"(81) 9999-9999",
+      "email":"julio@email.com",
+      "answerDate":"02/02/2023"
+    },
+    {
+      "name":"Mário",
+      "status":"Recusado",
+      "phone":"(81) 9999-9999",
+      "email":"julio@email.com",
+      "answerDate":"02/02/2023"
+    },
+    {
+      "name":"Marcelo",
+      "status":"Confirmado",
+      "phone":"(81) 9999-9999",
+      "email":"julio@email.com",
+      "answerDate":"02/02/2023"
+    },
+    {
+      "name":"Getmberg",
+      "status":"Recusado",
+      "phone":"(81) 9999-9999",
+      "email":"julio@email.com",
+      "answerDate":"02/02/2023"
+    },
+    {
+      "name":"Melissa",
+      "status":"Confirmado",
+      "phone":"(81) 9999-9999",
+      "email":"julio@email.com",
+      "answerDate":"02/02/2023"
+    },
+    {
+      "name":"Jurema",
+      "status":"Recusado",
+      "phone":"(81) 9999-9999",
+      "email":"julio@email.com",
+      "answerDate":"02/02/2023"
+    },
+    {
+      "name":"Júlio",
+      "status":"Confirmado",
+      "phone":"(81) 9999-9999",
+      "email":"julio@email.com",
+      "answerDate":"02/02/2023"
+    },
+    {
+      "name":"Júlio",
+      "status":"Recusado",
+      "phone":"(81) 9999-9999",
+      "email":"julio@email.com",
+      "answerDate":"02/02/2023"
+    },
+    {
+      "name":"Júlio",
+      "status":"Confirmado",
+      "phone":"(81) 9999-9999",
+      "email":"julio@email.com",
+      "answerDate":"02/02/2023"
+    },
+    {
+      "name":"Mário",
+      "status":"Recusado",
+      "phone":"(81) 9999-9999",
+      "email":"julio@email.com",
+      "answerDate":"02/02/2023"
+    },
+    {
+      "name":"Marcelo",
+      "status":"Confirmado",
+      "phone":"(81) 9999-9999",
+      "email":"julio@email.com",
+      "answerDate":"02/02/2023"
+    },
+    {
+      "name":"Getmberg",
+      "status":"Recusado",
+      "phone":"(81) 9999-9999",
+      "email":"julio@email.com",
+      "answerDate":"02/02/2023"
+    },
+    {
+      "name":"Melissa",
+      "status":"Confirmado",
+      "phone":"(81) 9999-9999",
+      "email":"julio@email.com",
+      "answerDate":"02/02/2023"
+    },
+    {
+      "name":"Jurema",
+      "status":"Recusado",
+      "phone":"(81) 9999-9999",
+      "email":"julio@email.com",
+      "answerDate":"02/02/2023"
+    },
+    {
+      "name":"Júlio",
+      "status":"Confirmado",
+      "phone":"(81) 9999-9999",
+      "email":"julio@email.com",
+      "answerDate":"02/02/2023"
+    },
+    {
+      "name":"Júlio",
+      "status":"Recusado",
+      "phone":"(81) 9999-9999",
+      "email":"julio@email.com",
+      "answerDate":"02/02/2023"
+    },
+    {
+      "name":"Júlio",
+      "status":"Confirmado",
+      "phone":"(81) 9999-9999",
+      "email":"julio@email.com",
+      "answerDate":"02/02/2023"
+    },
+    {
+      "name":"Mário",
+      "status":"Recusado",
+      "phone":"(81) 9999-9999",
+      "email":"julio@email.com",
+      "answerDate":"02/02/2023"
+    },
+    {
+      "name":"Marcelo",
+      "status":"Confirmado",
+      "phone":"(81) 9999-9999",
+      "email":"julio@email.com",
+      "answerDate":"02/02/2023"
+    },
+    {
+      "name":"Getmberg",
+      "status":"Recusado",
+      "phone":"(81) 9999-9999",
+      "email":"julio@email.com",
+      "answerDate":"02/02/2023"
+    },
+    {
+      "name":"Melissa",
+      "status":"Confirmado",
+      "phone":"(81) 9999-9999",
+      "email":"julio@email.com",
+      "answerDate":"02/02/2023"
+    },
+    {
+      "name":"Jurema",
+      "status":"Recusado",
+      "phone":"(81) 9999-9999",
+      "email":"julio@email.com",
+      "answerDate":"02/02/2023"
+    }
+  ]
+}

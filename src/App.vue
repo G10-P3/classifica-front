@@ -1,17 +1,10 @@
 <template>
-  <div id="app">
-    <HeaderClassifica />
-    <!-- Outros componentes ou conteúdo -->
-  </div>
+  <router-view> </router-view>
 </template>
 
 <script>
-import HeaderClassifica from "./components/organisms/HeaderClassifica.vue";
-
 export default {
   name: "App",
-  components: {
-    HeaderClassifica,
-  },
+  components: {},
 };
 </script>
