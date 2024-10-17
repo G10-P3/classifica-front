@@ -26,8 +26,8 @@ O Classifica é um sistema projetado para resolver as dificuldades enfrentadas p
   </a>
 </p>
 <p style="text-align: center; text-decoration: none;">
-  <a href="https://github.com/G10-P3/classifica-front" style="text-decoration: none;">
-    <span>Repositório Front</span>
+  <a href="https://github.com/G10-P3/projeto3" style="text-decoration: none;">
+    <span>Repositório Back</span>
   </a>
 </p>
 
