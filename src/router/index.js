@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 import Login from "@/pages/Login.vue";
 import HomeAdmin from "@/pages/HomeAdmin.vue"; // Importe o componente HomeAdmin
+import QueryResults from "@/pages/QueryResults.vue";
 
 const routes = [
   {
@@ -13,6 +14,11 @@ const routes = [
     name: "HomeAdmin",
     component: HomeAdmin,
   },
+  {
+    path: "/query-results",
+    name: "QueryResults",
+    component: QueryResults,
+  }
   // Redireciona para /login por padrão se o usuário acessar uma rota inexistente
   // {
   //   path: "/:catchAll(.*)",
