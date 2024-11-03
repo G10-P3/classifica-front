@@ -38,7 +38,7 @@
             range
             :format="formatDate"
             placeholder="Data"
-             class="w-1/3 p-2 border rounded-lg datepicker-class"
+            class="w-1/3 p-2 border rounded-lg datepicker-class"
           />
         </div>
       </div>
@@ -56,7 +56,7 @@
         </thead>
         <tbody>
           <tr
-            v-for="(row, index) in filteredTableData"
+            v-for="(row, index) in paginatedTableData"
             :key="index"
             @click="selectRow(index)"
             :class="{ 'bg-blue-50': selectedRow === index }"
@@ -69,6 +69,25 @@
           </tr>
         </tbody>
       </table>
+
+        <!-- Paginação (exibida apenas se houver mais de 10 registros) -->
+        <div v-if="tableData.length > 10" class="pagination-controls flex justify-end mt-4">
+      <button
+        v-if="currentPage > 1"
+        @click="goToPreviousPage"
+        class="pagination-button"
+      >
+        Anterior
+      </button>
+      <span class="pagination-info">Página {{ currentPage }} de {{ totalPages }}</span>
+      <button
+        v-if="currentPage < totalPages"
+        @click="goToNextPage"
+        class="pagination-button"
+      >
+        Próxima
+      </button>
+    </div>
     </div>
   </div>
 </template>
@@ -90,26 +109,44 @@ export default {
         { simulado: "Nome do Simulado 1", turma: "4º ano", criado: "10.10.2024", aplicacao: "17.10.2024", media: "9,4" },
         { simulado: "Nome do Simulado 2", turma: "3º ano", criado: "14.09.2024", aplicacao: "15.09.2024", media: "8,4" },
         { simulado: "Nome do Simulado 3", turma: "5º ano", criado: "12.09.2024", aplicacao: "20.09.2024", media: "9,8" },
+        { simulado: "Nome do Simulado 4", turma: "4º ano", criado: "28.08.2024", aplicacao: "05.09.2024", media: "9,5" },
+        { simulado: "Nome do Simulado 4", turma: "4º ano", criado: "28.08.2024", aplicacao: "05.09.2024", media: "9,5" },
+        { simulado: "Nome do Simulado 4", turma: "4º ano", criado: "28.08.2024", aplicacao: "05.09.2024", media: "9,5" },
+        { simulado: "Nome do Simulado 4", turma: "4º ano", criado: "28.08.2024", aplicacao: "05.09.2024", media: "9,5" },
+        { simulado: "Nome do Simulado 4", turma: "4º ano", criado: "28.08.2024", aplicacao: "05.09.2024", media: "9,5" },
+        { simulado: "Nome do Simulado 4", turma: "4º ano", criado: "28.08.2024", aplicacao: "05.09.2024", media: "9,5" },
+        { simulado: "Nome do Simulado 4", turma: "4º ano", criado: "28.08.2024", aplicacao: "05.09.2024", media: "9,5" },
+        { simulado: "Nome do Simulado 4", turma: "4º ano", criado: "28.08.2024", aplicacao: "05.09.2024", media: "9,5" },
+        { simulado: "Nome do Simulado 4", turma: "4º ano", criado: "28.08.2024", aplicacao: "05.09.2024", media: "9,5" },
         { simulado: "Nome do Simulado 4", turma: "4º ano", criado: "28.08.2024", aplicacao: "05.09.2024", media: "9,5" }
+        // Adicione mais dados para testar a paginação
       ],
       selectedRow: null,
-      selectedTurma: '', // Para armazenar a turma selecionada
-      selectedDateRange: null, // Para armazenar o intervalo de datas selecionado
+      selectedTurma: '',
+      selectedDateRange: null,
+      currentPage: 1,
+      itemsPerPage: 10,
     };
   },
   computed: {
-    // Obter turmas únicas da tableData
     uniqueTurmas() {
       const turmas = this.tableData.map(row => row.turma);
       return [...new Set(turmas)];
     },
-    // Filtrar os dados da tabela com base na turma selecionada e na data selecionada
     filteredTableData() {
       return this.tableData.filter(row => {
         const turmaMatch = !this.selectedTurma || row.turma === this.selectedTurma;
         const dateMatch = this.filterByDate(row.criado);
         return turmaMatch && dateMatch;
       });
+    },
+    paginatedTableData() {
+      const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+      const endIndex = this.currentPage * this.itemsPerPage;
+      return this.filteredTableData.slice(startIndex, endIndex);
+    },
+    totalPages() {
+      return Math.ceil(this.filteredTableData.length / this.itemsPerPage);
     }
   },
   methods: {
@@ -120,13 +157,13 @@ export default {
       this.selectedRow = (this.selectedRow === index) ? null : index; 
     },
     formatDate(date) {
-    if (typeof date === 'string') {
-      date = new Date(date.split('.').reverse().join('-')); 
-    }
-    return date instanceof Date ? date.getDate() : null; 
-  },
+      if (typeof date === 'string') {
+        date = new Date(date.split('.').reverse().join('-')); 
+      }
+      return date instanceof Date ? date.getDate() : null; 
+    },
     filterByDate(date) {
-      if (!this.selectedDateRange || this.selectedDateRange.length !== 2) return true; // Sem filtro se não houver seleção
+      if (!this.selectedDateRange || this.selectedDateRange.length !== 2) return true;
 
       const [startDate, endDate] = this.selectedDateRange;
       const [day, month, year] = date.split(".");
@@ -134,8 +171,16 @@ export default {
 
       return currentDate >= startDate && currentDate <= endDate;
     },
-    filterByTurma() {
-      
+    filterByTurma() {},
+    goToPreviousPage() {
+      if (this.currentPage > 1) {
+        this.currentPage--;
+      }
+    },
+    goToNextPage() {
+      if (this.currentPage < this.totalPages) {
+        this.currentPage++;
+      }
     }
   }
 };
@@ -232,4 +277,28 @@ select:focus {
 .results-table tbody tr:hover {
   cursor: pointer; 
 }
+
+.pagination-controls {
+  gap: 1rem;
+}
+
+.pagination-button {
+  background-color: #3490dc;
+  color: white;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.pagination-button:disabled {
+  background-color: #cbd5e0;
+  cursor: not-allowed;
+}
+
+.pagination-info {
+  font-size: 1rem;
+}
+
 </style>
