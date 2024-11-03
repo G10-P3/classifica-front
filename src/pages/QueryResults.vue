@@ -23,10 +23,10 @@
         <h2>Consultar resultados</h2>
 
         <!-- Botões de filtro -->
-        <div class="filters">
+        <div class="flex justify-end filters">
           <span>Filtros</span>
-          <select v-model="selectedTurma" @change="filterByTurma">
-            <option value="">Turma</option>
+          <select v-model="selectedTurma" @change="filterByTurma" class="w-auto p-2 border rounded-lg ">
+            <option class="turmaPlacehoder" value=""> Turma</option>
             <option v-for="turma in uniqueTurmas" :key="turma" :value="turma">
               {{ turma }}
             </option>
@@ -38,7 +38,7 @@
             range
             :format="formatDate"
             placeholder="Data"
-            class="w-full p-2 border rounded-lg"
+             class="w-1/3 p-2 border rounded-lg datepicker-class"
           />
         </div>
       </div>
@@ -174,10 +174,15 @@ h2 {
   gap: 0.5rem;
 }
 
+select option {
+  color: black; 
+}
+
 select {
-  padding: 0.3rem 0.8rem;
-  border: 1px solid #ccc;
-  border-radius: 7px;
+  padding: 0.4rem 0.8rem;
+  color: rgb(168, 159, 159);
+  border: 1px solid #cccccca6;
+  border-radius: 4px;
   background-color: #fff; 
   font-size: 1rem; 
   transition: border-color 0.3s;
@@ -186,6 +191,12 @@ select {
 select:hover {
   border-color: #aaa;
 }
+
+.datepicker-class {
+  border: none; 
+  box-shadow: none;
+}
+
 
 select:focus {
   outline: none; 
