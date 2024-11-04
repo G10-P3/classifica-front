@@ -285,7 +285,7 @@ select:focus {
 .pagination-button {
   background-color: #3490dc;
   color: white;
-  padding: 0.5rem 1rem;
+  padding: 0.2rem 0.9rem;
   border: none;
   border-radius: 4px;
   cursor: pointer;
