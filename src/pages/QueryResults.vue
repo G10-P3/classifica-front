@@ -121,6 +121,7 @@ export default {
         { simulado: "Nome do Simulado 4", turma: "4º ano", criado: "28.08.2024", aplicacao: "05.09.2024", media: "9,5" }
         // Adicione mais dados para testar a paginação
       ],
+      // tableData: []
       selectedRow: null,
       selectedTurma: '',
       selectedDateRange: null,
@@ -150,6 +151,19 @@ export default {
     }
   },
   methods: {
+    fetchTableData() {
+      
+      fetch("caminho")
+      .then(response => response.json())
+      .then(data => {
+        this.tableData = data;
+      })
+      .catch(error => {
+        console.error("Tive esse erro: ", error);
+      })
+  
+    },
+
     goHome() {
       this.$router.push("/home-admin");
     },
@@ -181,6 +195,10 @@ export default {
       if (this.currentPage < this.totalPages) {
         this.currentPage++;
       }
+    },
+
+    mountTable() {
+    this.fetchTableData();
     }
   }
 };

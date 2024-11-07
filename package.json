@@ -13,6 +13,7 @@
     "bem-front": "file:",
     "core-js": "^3.8.3",
     "crypto-browserify": "^3.12.0",
+    "fund": "^1.0.0",
     "jsonwebtoken": "^9.0.2",
     "process": "^0.11.10",
     "stream-browserify": "^3.0.0",
