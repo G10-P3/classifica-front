@@ -106,20 +106,7 @@ export default {
   data() {
     return {
       tableData: [
-        { simulado: "Nome do Simulado 1", turma: "4º ano", criado: "10.10.2024", aplicacao: "17.10.2024", media: "9,4" },
-        { simulado: "Nome do Simulado 2", turma: "3º ano", criado: "14.09.2024", aplicacao: "15.09.2024", media: "8,4" },
-        { simulado: "Nome do Simulado 3", turma: "5º ano", criado: "12.09.2024", aplicacao: "20.09.2024", media: "9,8" },
-        { simulado: "Nome do Simulado 4", turma: "4º ano", criado: "28.08.2024", aplicacao: "05.09.2024", media: "9,5" },
-        { simulado: "Nome do Simulado 4", turma: "4º ano", criado: "28.08.2024", aplicacao: "05.09.2024", media: "9,5" },
-        { simulado: "Nome do Simulado 4", turma: "4º ano", criado: "28.08.2024", aplicacao: "05.09.2024", media: "9,5" },
-        { simulado: "Nome do Simulado 4", turma: "4º ano", criado: "28.08.2024", aplicacao: "05.09.2024", media: "9,5" },
-        { simulado: "Nome do Simulado 4", turma: "4º ano", criado: "28.08.2024", aplicacao: "05.09.2024", media: "9,5" },
-        { simulado: "Nome do Simulado 4", turma: "4º ano", criado: "28.08.2024", aplicacao: "05.09.2024", media: "9,5" },
-        { simulado: "Nome do Simulado 4", turma: "4º ano", criado: "28.08.2024", aplicacao: "05.09.2024", media: "9,5" },
-        { simulado: "Nome do Simulado 4", turma: "4º ano", criado: "28.08.2024", aplicacao: "05.09.2024", media: "9,5" },
-        { simulado: "Nome do Simulado 4", turma: "4º ano", criado: "28.08.2024", aplicacao: "05.09.2024", media: "9,5" },
-        { simulado: "Nome do Simulado 4", turma: "4º ano", criado: "28.08.2024", aplicacao: "05.09.2024", media: "9,5" }
-        // Adicione mais dados para testar a paginação
+        
       ],
       // tableData: []
       selectedRow: null,
@@ -153,7 +140,7 @@ export default {
   methods: {
     fetchTableData() {
       
-      fetch("caminho")
+      fetch("http://localhost:8080/results")
       .then(response => response.json())
       .then(data => {
         this.tableData = data;

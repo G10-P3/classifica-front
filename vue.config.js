@@ -2,6 +2,9 @@ const webpack = require("webpack");
 
 module.exports = {
   transpileDependencies: true,
+  devServer: {
+    port: 3000, // Altere para a porta desejada
+  },
   configureWebpack: {
     resolve: {
       fallback: {
