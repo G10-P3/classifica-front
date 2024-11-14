@@ -20,7 +20,7 @@
     <!-- Conteúdo da página -->
     <div class="results-container">
       <div class="header-container">
-        <h2>Consultar resultados</h2>
+        <h2>Consultar Resultados</h2>
 
         <!-- Botões de filtro -->
         <div class="flex justify-end filters">
@@ -106,7 +106,21 @@ export default {
   data() {
     return {
       tableData: [
-        
+        { "simulado": "Matemática Básica", "turma": "3º ano", "criado": "20.09.2024", "aplicacao": "27.09.2024", "media": "8,2" },
+        { "simulado": "Matemática Avançada", "turma": "5º ano", "criado": "05.09.2024", "aplicacao": "12.09.2024", "media": "8,7" },
+        { "simulado": "Ciências Básicas", "turma": "6º ano", "criado": "11.09.2024", "aplicacao": "18.09.2024", "media": "7,9" },
+        { "simulado": "História Geral", "turma": "4º ano", "criado": "03.10.2024", "aplicacao": "10.10.2024", "media": "9,2" },
+        { "simulado": "Geografia Avançada", "turma": "5º ano", "criado": "08.10.2024", "aplicacao": "15.10.2024", "media": "8,5" },
+        { "simulado": "Língua Portuguesa", "turma": "7º ano", "criado": "15.09.2024", "aplicacao": "22.09.2024", "media": "8,3" },
+        { "simulado": "Simulado de Ciências Naturais", "turma": "8º ano", "criado": "01.10.2024", "aplicacao": "08.10.2024", "media": "7,8" },
+        { "simulado": "Matemática e Física", "turma": "9º ano", "criado": "18.09.2024", "aplicacao": "25.09.2024", "media": "9,1" },
+        { "simulado": "Linguagens e Códigos", "turma": "6º ano", "criado": "22.09.2024", "aplicacao": "29.09.2024", "media": "8,0" },
+        { "simulado": "Redação e Produção de Texto", "turma": "8º ano", "criado": "06.10.2024", "aplicacao": "13.10.2024", "media": "7,6" },
+        { "simulado": "Simulado de Geografia", "turma": "4º ano", "criado": "04.10.2024", "aplicacao": "11.10.2024", "media": "8,9" },
+        { "simulado": "Ciências da Natureza", "turma": "5º ano", "criado": "13.10.2024", "aplicacao": "20.10.2024", "media": "7,7" },
+        { "simulado": "Estudos Sociais", "turma": "4º ano", "criado": "28.09.2024", "aplicacao": "05.10.2024", "media": "9,0" },
+        { "simulado": "Química Básica", "turma": "9º ano", "criado": "07.10.2024", "aplicacao": "14.10.2024", "media": "8,1" },
+        { "simulado": "Prova de Atualidades", "turma": "7º ano", "criado": "01.10.2024", "aplicacao": "08.10.2024", "media": "8,4" }
       ],
       // tableData: []
       selectedRow: null,
@@ -280,7 +294,7 @@ select:focus {
 }
 
 .results-table tbody tr:hover {
-  cursor: pointer; 
+  background-color: #f4f4f4;
 }
 
 .pagination-controls {
