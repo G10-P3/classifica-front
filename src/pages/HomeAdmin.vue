@@ -1,44 +1,53 @@
 <template>
   <div>
     <HeaderClassifica />
-    <div
-      class="flex flex-col items-center justify-center min-h-screen bg-gray-100"
-    >
+    <div class="flex flex-col items-center justify-center min-h-screen bg-gray-100">
+      <div class="text-center mb-8">
+        <!-- Substituído o logo por um texto -->
+        <h2 class="text-2xl font-semibold text-gray-800">Olá, Professor</h2>
+      </div>
+      <!-- Container principal -->
       <div class="bg-white p-8 rounded-lg w-full max-w-4xl mb-8">
-        <div class="flex flex-row justify-between">
-          <div
-            class="w-60% flex items-center justify-center border-black border-2 rounded"
-          >
-            <img
-              src="../assets/logo.png"
-              alt="Foto"
-              class="rounded-full w-48 h-48 object-cover"
-            />
+        <div class="flex flex-row justify-between items-start">
+          <!-- Calendário (Centralizado no topo) -->
+          <div class="w-60% flex flex-col items-center justify-center border-black border-2 rounded">
+            <div class="bg-gray-100 p-4 rounded-lg w-full">
+              <h3 class="text-xl font-semibold mb-4 text-center">Outubro</h3>
+              <div class="grid grid-cols-7 gap-2">
+                <div
+                  v-for="day in daysInMonth"
+                  :key="day"
+                  class="h-10 w-10 flex items-center justify-center rounded hover:bg-gray-200 cursor-pointer"
+                  :class="{ 'bg-gray-300': day === today }"
+                >
+                  {{ day }}
+                </div>
+              </div>
+            </div>
           </div>
-          <div class="w-38% flex flex-col items-center justify-between">
+
+          <!-- Botões Cadastrar -->
+          <div class="w-38% flex flex-col items-center space-y-4">
             <div class="w-full h-48% border-black border-2 rounded">
               <button
-                class="w-full h-full bg-white-500 text-black py-2 px-4 rounded-md hover:bg-gray-600 mb-4"
+                class="w-full h-full bg-white-500 text-black py-12 px-4 rounded-md hover:bg-gray-600"
               >
-                Cadastrar novo
-                <br />Simulado
+                Cadastrar novo<br />Simulado
               </button>
             </div>
             <div class="w-full h-48% border-black border-2 rounded">
               <button
-                class="w-full h-full bg-white-500 text-black py-2 px-4 rounded-md hover:bg-gray-600"
+                class="w-full h-full bg-white-500 text-black py-12 px-4 rounded-md hover:bg-gray-600"
               >
-                Cadastrar
-                <br />Resultados
+                Cadastrar<br />Resultados
               </button>
             </div>
           </div>
         </div>
       </div>
 
-      <div
-        class="bg-white rounded-lg w-full max-w-4xl flex flex-col items-center justify-center"
-      >
+      <!-- Navegação e botões -->
+      <div class="bg-white rounded-lg w-full max-w-4xl flex flex-col items-center justify-center">
         <div class="relative h-4/5 w-full max-w-[832px]">
           <button
             @click="prev"
@@ -109,6 +118,8 @@ export default {
         "Botão 10",
       ],
       currentPage: 0,
+      daysInMonth: Array.from({ length: 31 }, (_, i) => i + 1), // Dias do mês (1 a 31)
+      today: new Date().getDate(), // Dia atual
     };
   },
   computed: {
