@@ -11,6 +11,7 @@
     "@vuepic/vue-datepicker": "^9.0.3",
     "axios": "^1.7.7",
     "bem-front": "file:",
+    "chart.js": "^4.4.6",
     "core-js": "^3.8.3",
     "crypto-browserify": "^3.12.0",
     "fund": "^1.0.0",
