@@ -3,6 +3,7 @@ import Login from "@/pages/Login.vue";
 import HomeAdmin from "@/pages/HomeAdmin.vue"; // Importe o componente HomeAdmin
 import QueryResults from "@/pages/QueryResults.vue";
 import QueryExams from "@/pages/QueryExams.vue";
+import QueryStudents from "@/pages/QueryStudents.vue";
 
 const routes = [
   {
@@ -24,6 +25,11 @@ const routes = [
     path: "/query-exams",
     name: "QueryExams",
     component: QueryExams,
+  },
+  {
+    path: "/query-students",
+    name: "QueryStudents",
+    component: QueryStudents,
   }
   // Redireciona para /login por padrão se o usuário acessar uma rota inexistente
   // {
