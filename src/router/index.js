@@ -4,7 +4,9 @@ import HomeAdmin from "@/pages/HomeAdmin.vue"; // Importe o componente HomeAdmin
 import QueryResults from "@/pages/QueryResults.vue";
 import QueryExams from "@/pages/QueryExams.vue";
 import QueryStudents from "@/pages/QueryStudents.vue";
-import RegisterExam from "@/pages/RegisterExam.vue"
+import RegisterExam from "@/pages/RegisterExam.vue";
+import RegisterResults from "@/pages/RegisterResults.vue";
+import ViewStudent from "@/pages/ViewStudent.vue";
 
 const routes = [
   {
@@ -36,6 +38,16 @@ const routes = [
     path: "/register-exam",
     name: "RegisterExam",
     component: RegisterExam,
+  },
+  {
+    path: "/register-result",
+    name: "RegisterResults",
+    component: RegisterResults,
+  },
+  {
+    path: "/view-student",
+    name: "ViewStudent",
+    component: ViewStudent,
   }
   // Redireciona para /login por padrão se o usuário acessar uma rota inexistente
   // {
