@@ -15,7 +15,7 @@
       <!-- Conteúdo da página -->
       <div class="results-container">
         <div class="header-container">
-          <h2>Consultar Turmas EXEMPLO DE TURMAS</h2>
+          <h2>Consultar Turmas</h2>
   
           <!-- Filtro de busca -->
           <div class="search-container">
