@@ -41,14 +41,17 @@
           <tbody>
           <tr
               v-for="turma in paginatedTurmas"
-              :key="turma.className"
+              :key="turma.id"
+              @click="selectTurma(turma)"
+              class="cursor-pointer"
           >
             <td>{{ turma.className }}</td>
-            <td>{{ turma.description || 'N/A' }}</td>
+            <td>{{ turma.shift || 'N/A' }}</td>
             <td>{{ turma.studentCount }}</td>
             <td>{{ turma.average.toFixed(2) }}</td>
           </tr>
           </tbody>
+
         </table>
 
 
@@ -123,11 +126,16 @@ export default {
           .catch((error) => {
             console.error("Erro ao buscar turmas:", error);
           });
+    },
+
+    selectTurma(turma) {
+      this.$router.push({
+        name: "class-detail",
+        params: { id: turma.id },
+        query: { name: turma.className, shift: turma.shift },
+      });
     }
     ,
-    selectTurma(turma) {
-      this.selectedTurma = turma;
-    },
     goHome() {
       this.$router.push("/home-admin");
     },
