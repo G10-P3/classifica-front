@@ -147,7 +147,6 @@ export default {
   },
   methods: {
     async fetchTableData() {
-      console.log("Buscando dados...");
       try {
         const response = await Api.get("/results/summaries");
 

@@ -100,6 +100,7 @@
   import HeaderClassifica from "@/components/organisms/HeaderClassifica.vue";
   import Datepicker from '@vuepic/vue-datepicker';
   import '@vuepic/vue-datepicker/dist/main.css';
+  import Api from "../services/axios";
   
   export default {
     name: "QueryResults",
@@ -109,21 +110,21 @@
     },
     data() {
       return {
-        tableData: [
-      { "simulado": "Matemática Básica", "turma": "3º ano", "criado": "20.09.2024", "status": "Aplicado" },
-      { "simulado": "Matemática Avançada", "turma": "5º ano", "criado": "05.09.2024", "status": "Não aplicado" },
-      { "simulado": "Matemática Básica", "turma": "3º ano", "criado": "20.09.2024", "status": "Aplicado" },
-      { "simulado": "Matemática Avançada", "turma": "5º ano", "criado": "05.09.2024", "status": "Não aplicado" },
-      { "simulado": "Matemática Básica", "turma": "3º ano", "criado": "20.09.2024", "status": "Aplicado" },
-      { "simulado": "Matemática Avançada", "turma": "5º ano", "criado": "05.09.2024", "status": "Não aplicado" },
-      { "simulado": "Matemática Básica", "turma": "3º ano", "criado": "20.09.2024", "status": "Aplicado" },
-      { "simulado": "Matemática Avançada", "turma": "5º ano", "criado": "05.09.2024", "status": "Não aplicado" },
-      { "simulado": "Matemática Básica", "turma": "3º ano", "criado": "20.09.2024", "status": "Aplicado" },
-      { "simulado": "Matemática Avançada", "turma": "5º ano", "criado": "05.09.2024", "status": "Não aplicado" },
-      { "simulado": "Matemática Básica", "turma": "3º ano", "criado": "20.09.2024", "status": "Aplicado" },
-      { "simulado": "Matemática Avançada", "turma": "5º ano", "criado": "05.09.2024", "status": "Não aplicado" },
-    ],
-        // tableData: []
+    //     tableData: [
+    //   { "simulado": "Matemática Básica", "turma": "3º ano", "criado": "20.09.2024", "status": "Aplicado" },
+    //   { "simulado": "Matemática Avançada", "turma": "5º ano", "criado": "05.09.2024", "status": "Não aplicado" },
+    //   { "simulado": "Matemática Básica", "turma": "3º ano", "criado": "20.09.2024", "status": "Aplicado" },
+    //   { "simulado": "Matemática Avançada", "turma": "5º ano", "criado": "05.09.2024", "status": "Não aplicado" },
+    //   { "simulado": "Matemática Básica", "turma": "3º ano", "criado": "20.09.2024", "status": "Aplicado" },
+    //   { "simulado": "Matemática Avançada", "turma": "5º ano", "criado": "05.09.2024", "status": "Não aplicado" },
+    //   { "simulado": "Matemática Básica", "turma": "3º ano", "criado": "20.09.2024", "status": "Aplicado" },
+    //   { "simulado": "Matemática Avançada", "turma": "5º ano", "criado": "05.09.2024", "status": "Não aplicado" },
+    //   { "simulado": "Matemática Básica", "turma": "3º ano", "criado": "20.09.2024", "status": "Aplicado" },
+    //   { "simulado": "Matemática Avançada", "turma": "5º ano", "criado": "05.09.2024", "status": "Não aplicado" },
+    //   { "simulado": "Matemática Básica", "turma": "3º ano", "criado": "20.09.2024", "status": "Aplicado" },
+    //   { "simulado": "Matemática Avançada", "turma": "5º ano", "criado": "05.09.2024", "status": "Não aplicado" },
+    // ],
+        tableData: [],
         selectedRow: null,
         selectedTurma: '',
         selectedDateRange: null,
@@ -156,18 +157,37 @@
     getStatusClass(status) {
     return status === "Aplicado" ? "status-aplicado" : "status-nao-aplicado";
   },
-      fetchTableData() {
-        
-        fetch("http://localhost:8080/results")
-        .then(response => response.json())
-        .then(data => {
-          this.tableData = data;
-        })
-        .catch(error => {
-          console.error("Tive esse erro: ", error);
-        })
-    
-      },
+  async fetchTableData() {
+      try {
+        const response = await Api.get("/exam/summaries");
+
+        // if (!response.ok) {
+        //   throw new Error(`Erro ao buscar os dados: ${response.statusText}`);
+        // }
+
+        const data = response.data;
+
+        // 2024-11-28T23:14:13.781+00:00
+
+        // Formata a data para o formato dd/mm/yyyy e remove a hora
+        data.forEach((row) => {
+          const [date] = row.created.split("T");
+          row.created = date.split("-").reverse().join("/");
+
+          const date2 = row.application;
+          row.application = date2.split("-").reverse().join("/");
+        });
+
+        // 2024-11-30
+        // Formata a data application para dd/mm/yyyy
+        data.forEach;
+
+        this.tableData = data;
+      } catch (error) {
+        console.error("Erro na requisição:", error);
+      }
+    },
+
   
       goHome() {
         this.$router.push("/home-admin");
@@ -202,10 +222,13 @@
         }
       },
   
-      mountTable() {
-      this.fetchTableData();
-      }
-    }
+      async mountTable() {
+      await this.fetchTableData();
+    },
+    },
+    mounted() {
+      this.mountTable();
+    },
   };
   </script>
   
