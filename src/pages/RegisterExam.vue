@@ -35,10 +35,11 @@
           <label for="simulated-class">Turma</label>
           <select v-model="selectedClass" id="simulated-class" class="input-field">
             <option disabled value="">Selecione a turma</option>
-            <option v-for="classOption in classOptions" :key="classOption" :value="classOption">
-              {{ classOption }}
+            <option v-for="classOption in classOptions" :key="classOption.id" :value="classOption.id">
+              {{ classOption.name }}
             </option>
           </select>
+
         </div>
 
         <div class="form-group">
@@ -102,9 +103,9 @@
     </form>
   </div>
 </template>
-
 <script>
 import HeaderClassifica from "@/components/organisms/HeaderClassifica.vue";
+import axios from "axios";
 
 export default {
   name: "RegisterExam",
@@ -115,7 +116,7 @@ export default {
     return {
       simulatedName: "",
       simulatedDate: "",
-      selectedClass: "",
+      selectedClass: "", // Deve conter o ID da turma selecionada
       totalQuestions: 0,
       subjects: {
         math: false,
@@ -124,37 +125,70 @@ export default {
       mathQuestions: 0,
       portugueseQuestions: 0,
       observations: "",
-      classOptions: ["Turma A", "Turma B", "Turma C"],
+      classOptions: [], // Receberá os dados das turmas do back-end
     };
   },
+
+  created() {
+    this.fetchClasses(); // Carrega as turmas ao criar o componente
+  },
+
   methods: {
+    async fetchClasses() {
+      try {
+        const response = await axios.get("http://localhost:8080/classes/"); // Ajuste conforme necessário
+        this.classOptions = response.data.map((classe) => ({
+          id: classe.id, // UUID da turma
+          name: classe.className, // Ajuste para 'className'
+        }));
+      } catch (error) {
+        console.error("Erro ao buscar turmas:", error);
+        alert("Erro ao carregar as turmas. Tente novamente.");
+      }
+    }
+    ,
+
     goBack() {
       this.$router.push("/home-admin");
     },
-    registerSimulated() {
+    async registerSimulated() {
+      // Validação dos campos obrigatórios
       if (!this.simulatedName || !this.simulatedDate || !this.selectedClass) {
         alert("Por favor, preencha os campos obrigatórios!");
         return;
       }
 
-      const simulatedData = {
-        name: this.simulatedName,
-        date: this.simulatedDate,
-        class: this.selectedClass,
-        totalQuestions: this.totalQuestions,
-        subjects: {
-          math: this.subjects.math ? this.mathQuestions : 0,
-          portuguese: this.subjects.portuguese ? this.portugueseQuestions : 0,
-        },
-        observations: this.observations,
-      };
+      try {
+        // Dados a serem enviados para o back-end
+        const simulatedData = {
+          name: this.simulatedName,
+          date: this.simulatedDate,
+          questionsQuantity: this.totalQuestions,
+          mathQuestionsQuantity: this.subjects.math ? this.mathQuestions : 0,
+          portugueseQuestionsQuantity: this.subjects.portuguese
+              ? this.portugueseQuestions
+              : 0,
+          observations: this.observations || null,
+          classes: [this.selectedClass], // Adicionando a classe selecionada
+        };
 
-      console.log("Simulado cadastrado:", simulatedData);
-      alert("Simulado cadastrado com sucesso!");
-    },
+        // Enviar requisição POST para o back-end
+        const response = await axios.post("http://localhost:8080/exam", simulatedData);
+
+        // Mensagem de sucesso
+        console.log("Simulado cadastrado com sucesso:", response.data);
+        alert("Simulado cadastrado com sucesso!");
+      } catch (error) {
+        // Tratamento de erro
+        console.error("Erro ao cadastrar simulado:", error);
+        alert("Ocorreu um erro ao cadastrar o simulado. Tente novamente.");
+      }
+    }
+    ,
   },
 };
 </script>
+
 
 <style scoped>
 .page-container {
