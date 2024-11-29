@@ -6,6 +6,14 @@ module.exports = {
     port: 3000, // Altere para a porta desejada
   },
   configureWebpack: {
+    devServer: {
+      proxy: {
+          "/api": {
+              target: "http://localhost:8080",
+              changeOrigin: true,
+          },
+      },
+    },
     resolve: {
       fallback: {
         crypto: require.resolve("crypto-browserify"),
