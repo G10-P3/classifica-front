@@ -61,11 +61,11 @@
             @click="selectRow(index)"
             :class="{ 'bg-blue-50': selectedRow === index }"
           >
-            <td>{{ row.simulado }}</td>
-            <td>{{ row.turma }}</td>
-            <td>{{ row.criado }}</td>
-            <td>{{ row.aplicacao }}</td>
-            <td>{{ row.media }}</td>
+            <td>{{ row.examName }}</td>
+            <td>{{ row.classname }}</td>
+            <td>{{ row.created }}</td>
+            <td>{{ row.application }}</td>
+            <td>{{ row.average }}</td>
           </tr>
         </tbody>
       </table>
