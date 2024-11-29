@@ -13,6 +13,14 @@ module.exports = {
     },
   },
   configureWebpack: {
+    devServer: {
+      proxy: {
+        "/api": {
+          target: "http://localhost:8001",
+          changeOrigin: true,
+        },
+      },
+    },
     resolve: {
       fallback: {
         crypto: require.resolve("crypto-browserify"),

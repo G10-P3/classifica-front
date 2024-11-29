@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "@vuepic/vue-datepicker": "^9.0.3",
-    "axios": "^1.7.7",
+    "axios": "^1.7.8",
     "bem-front": "file:",
     "chart.js": "^4.4.6",
     "core-js": "^3.8.3",
