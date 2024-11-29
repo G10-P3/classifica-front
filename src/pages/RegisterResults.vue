@@ -8,7 +8,11 @@
     <div class="flex items-center justify-between p-4">
       <!-- Botão de voltar -->
       <button @click="goBack" class="flex items-center mr-4 return-button">
-        <img :src="require('@/assets/returnIcon.png')" alt="Ícone de retorno" class="return-icon" />
+        <img
+          :src="require('@/assets/returnIcon.png')"
+          alt="Ícone de retorno"
+          class="return-icon"
+        />
       </button>
     </div>
 
@@ -17,10 +21,19 @@
       <div class="title-container">
         <h2>Registrar Resultado</h2>
         <!-- Dropdown de Simulados -->
-        <div class="simulado-selector">
-          <select v-model="selectedSimulado" @change="fetchAlunoData" class="dropdown">
+        <div class="simulado-selector text-black">
+          <select
+            v-model="selectedSimulado"
+            @change="fetchAlunoData"
+            class="dropdown text-black"
+          >
             <option value="">Selecione o Simulado</option>
-            <option v-for="simulado in simulados" :key="simulado.id" :value="simulado.id">
+            <option
+              v-for="simulado in simulados"
+              :key="simulado.id"
+              :value="simulado.id"
+              class="text-black"
+            >
               {{ simulado.nome }}
             </option>
           </select>
@@ -29,12 +42,11 @@
     </div>
 
     <!-- Mensagem quando não há simulado selecionado -->
-    <div v-if="!selectedSimulado" class="empty-message">
-      Selecione um simulado para visualizar
-    </div>
-
-    <!-- Tabela de Alunos -->
-    <div v-if="selectedSimulado && turma.alunos.length > 0">
+    <div v-if="isLoading">Carregando os dados...</div>
+    <div
+      v-else-if="selectedSimulado && turma.alunos && turma.alunos.length > 0"
+    >
+      <!-- Tabela de Alunos -->
       <table class="results-table">
         <thead>
           <tr>
@@ -45,15 +57,17 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="aluno in paginatedAlunos" :key="aluno.id">
-            <td>{{ aluno.aluno }}</td>
-            <td>{{ aluno.acertosMatematica }}</td>
-            <td>{{ aluno.acertosPortugues }}</td>
-            <td>{{ aluno.acertosTotais }}</td>
+          <tr v-for="aluno in turma.alunos" :key="aluno.student.id">
+            <td>{{ aluno.student.name }}</td>
+            <td>{{ aluno.mathScore }}</td>
+            <td>{{ aluno.portugueseScore }}</td>
+            <td>{{ aluno.totalScore }}</td>
           </tr>
         </tbody>
       </table>
+      <!-- Tabela e paginação -->
     </div>
+    <div v-else>Nenhum dado encontrado.</div>
 
     <!-- Controles de Navegação -->
     <div v-if="selectedSimulado && turma.alunos.length > 0" class="pagination">
@@ -61,7 +75,10 @@
         Anterior
       </button>
       <span>Página {{ currentPage }} de {{ totalPages }}</span>
-      <button @click="goToPage(currentPage + 1)" :disabled="currentPage === totalPages">
+      <button
+        @click="goToPage(currentPage + 1)"
+        :disabled="currentPage === totalPages"
+      >
         Próxima
       </button>
     </div>
@@ -70,6 +87,7 @@
 
 <script>
 import HeaderClassifica from "@/components/organisms/HeaderClassifica.vue";
+import Api from "../services/axios";
 
 export default {
   name: "RegisterResults",
@@ -79,8 +97,7 @@ export default {
   data() {
     return {
       selectedSimulado: "", // Armazenará o simulado selecionado
-      simulados: [
-      ],
+      simulados: [],
       turma: {
         nome: "",
         turno: "",
@@ -88,6 +105,7 @@ export default {
       },
       currentPage: 1, // Página inicial
       pageSize: 10, // Alunos por página
+      isLoading: false,
     };
   },
   computed: {
@@ -109,43 +127,47 @@ export default {
         this.currentPage = page;
       }
     },
-    fetchSimulados() {
-    // Requisição ao backend para buscar os simulados
-    this.$axios
-      .get("/exam/") 
-      .then((response) => {
-        // Supondo que a resposta seja um array de simulados [{ id, nome }]
-        this.simulados = response.data.map(simulado => ({
-        id: simulado.id,
-        nome: simulado.nome,
+    async fetchSimulados() {
+      try {
+        // Requisição ao backend para buscar os simulados
+        const response = await Api.get("/exam/"); // Supondo que a resposta seja um array de simulados [{ id, nome }]
+        this.simulados = response.data.map((simulado) => ({
+          id: simulado.id,
+          nome: simulado.name,
         }));
-      })
-      .catch((error) => {
+      } catch (error) {
         console.error("Erro ao buscar simulados:", error);
-      });
-  },
-    fetchAlunoData() {
-    if (this.selectedSimulado) {
-      // Exemplo de requisição ao backend com o ID do simulado
-      // Aqui você pode fazer uma chamada real para o backend usando, por exemplo, axios ou fetch
-      this.$axios
-        .get(`results/exams/${this.selectedSimulado}`)  // URL fictícia do backend
-        .then((response) => {
-          // Supondo que a resposta tenha uma estrutura como { alunos: [...] }
-          this.turma.alunos = response.data.alunos;
-        })
-        .catch((error) => {
+      }
+    },
+
+    async fetchAlunoData() {
+      if (this.selectedSimulado) {
+        this.isLoading = true; // Ativa o carregamento
+        try {
+          const response = await Api.get(
+            `results/exams/${this.selectedSimulado}`
+          );
+          this.turma.alunos = response.data || [];
+        } catch (error) {
           console.error("Erro ao buscar dados dos alunos:", error);
-        });
-    }
+          this.turma.alunos = [];
+        } finally {
+          this.isLoading = false; // Finaliza o carregamento
+        }
+      }
+    },
+
+    async mountPage() {
+      // Carregar os simulados ao montar o componente
+      await this.fetchSimulados();
+    },
   },
   mounted() {
-  // Carregar os simulados ao montar o componente
-  this.fetchSimulados();
-},
-  }
-}
-;
+    this.mountPage().catch((error) =>
+      console.error("Erro ao carregar página:", error)
+    );
+  },
+};
 </script>
 
 <style scoped>
