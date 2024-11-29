@@ -61,7 +61,7 @@ const routes = [
     component: QueryClass,
   },
   {
-    path: "/class-detail",
+    path: "/class-detail/:id",
     name: "class-detail",
     meta: {
       title: "Turma: detalhes"

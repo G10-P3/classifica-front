@@ -98,7 +98,7 @@
 
           <!-- Botões de ação -->
           <div class="action-buttons">
-            <button type="submit" class="save-button">Salvar Alterações</button>
+            <button @click.prevent="goBack" type="submit" class="save-button">Salvar Alterações</button>
             <button @click.prevent="goBack" class="cancel-button">Cancelar</button>
           </div>
         </form>
@@ -166,7 +166,6 @@ export default {
           { id: 15, nome: "Mariana Duarte", idade: 14, contato: "8888-6666", media: 8.9 },
         ],
       };
-      // Atribuindo os dados da turma mockada
       this.turma = { ...turmaMock };
     },
     saveChanges() {
