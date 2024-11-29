@@ -25,8 +25,12 @@
         <!-- Botões de filtro -->
         <div class="flex justify-end filters">
           <span>Filtros</span>
-          <select v-model="selectedTurma" @change="filterByTurma" class="w-auto p-2 border rounded-lg ">
-            <option class="turmaPlacehoder" value=""> Turma</option>
+          <select
+            v-model="selectedTurma"
+            @change="filterByTurma"
+            class="w-auto p-2 border rounded-lg"
+          >
+            <option class="turmaPlacehoder" value="">Turma</option>
             <option v-for="turma in uniqueTurmas" :key="turma" :value="turma">
               {{ turma }}
             </option>
@@ -70,32 +74,38 @@
         </tbody>
       </table>
 
-        <!-- Paginação (exibida apenas se houver mais de 10 registros) -->
-        <div v-if="tableData.length > 10" class="pagination-controls flex justify-end mt-4">
-      <button
-        v-if="currentPage > 1"
-        @click="goToPreviousPage"
-        class="pagination-button"
+      <!-- Paginação (exibida apenas se houver mais de 10 registros) -->
+      <div
+        v-if="tableData.length > 10"
+        class="pagination-controls flex justify-end mt-4"
       >
-        Anterior
-      </button>
-      <span class="pagination-info">Página {{ currentPage }} de {{ totalPages }}</span>
-      <button
-        v-if="currentPage < totalPages"
-        @click="goToNextPage"
-        class="pagination-button"
-      >
-        Próxima
-      </button>
-    </div>
+        <button
+          v-if="currentPage > 1"
+          @click="goToPreviousPage"
+          class="pagination-button"
+        >
+          Anterior
+        </button>
+        <span class="pagination-info"
+          >Página {{ currentPage }} de {{ totalPages }}</span
+        >
+        <button
+          v-if="currentPage < totalPages"
+          @click="goToNextPage"
+          class="pagination-button"
+        >
+          Próxima
+        </button>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 import HeaderClassifica from "@/components/organisms/HeaderClassifica.vue";
-import Datepicker from '@vuepic/vue-datepicker';
-import '@vuepic/vue-datepicker/dist/main.css';
+import Datepicker from "@vuepic/vue-datepicker";
+import "@vuepic/vue-datepicker/dist/main.css";
+import Api from "../services/axios";
 
 export default {
   name: "QueryResults",
@@ -105,26 +115,9 @@ export default {
   },
   data() {
     return {
-      // tableData: [
-      //   { "simulado": "Matemática Básica", "turma": "3º ano", "criado": "20.09.2024", "aplicacao": "27.09.2024", "media": "8,2" },
-      //   { "simulado": "Matemática Avançada", "turma": "5º ano", "criado": "05.09.2024", "aplicacao": "12.09.2024", "media": "8,7" },
-      //   { "simulado": "Ciências Básicas", "turma": "6º ano", "criado": "11.09.2024", "aplicacao": "18.09.2024", "media": "7,9" },
-      //   { "simulado": "História Geral", "turma": "4º ano", "criado": "03.10.2024", "aplicacao": "10.10.2024", "media": "9,2" },
-      //   { "simulado": "Geografia Avançada", "turma": "5º ano", "criado": "08.10.2024", "aplicacao": "15.10.2024", "media": "8,5" },
-      //   { "simulado": "Língua Portuguesa", "turma": "7º ano", "criado": "15.09.2024", "aplicacao": "22.09.2024", "media": "8,3" },
-      //   { "simulado": "Simulado de Ciências Naturais", "turma": "8º ano", "criado": "01.10.2024", "aplicacao": "08.10.2024", "media": "7,8" },
-      //   { "simulado": "Matemática e Física", "turma": "9º ano", "criado": "18.09.2024", "aplicacao": "25.09.2024", "media": "9,1" },
-      //   { "simulado": "Linguagens e Códigos", "turma": "6º ano", "criado": "22.09.2024", "aplicacao": "29.09.2024", "media": "8,0" },
-      //   { "simulado": "Redação e Produção de Texto", "turma": "8º ano", "criado": "06.10.2024", "aplicacao": "13.10.2024", "media": "7,6" },
-      //   { "simulado": "Simulado de Geografia", "turma": "4º ano", "criado": "04.10.2024", "aplicacao": "11.10.2024", "media": "8,9" },
-      //   { "simulado": "Ciências da Natureza", "turma": "5º ano", "criado": "13.10.2024", "aplicacao": "20.10.2024", "media": "7,7" },
-      //   { "simulado": "Estudos Sociais", "turma": "4º ano", "criado": "28.09.2024", "aplicacao": "05.10.2024", "media": "9,0" },
-      //   { "simulado": "Química Básica", "turma": "9º ano", "criado": "07.10.2024", "aplicacao": "14.10.2024", "media": "8,1" },
-      //   { "simulado": "Prova de Atualidades", "turma": "7º ano", "criado": "01.10.2024", "aplicacao": "08.10.2024", "media": "8,4" }
-      // ],
       tableData: [],
       selectedRow: null,
-      selectedTurma: '',
+      selectedTurma: "",
       selectedDateRange: null,
       currentPage: 1,
       itemsPerPage: 10,
@@ -132,12 +125,13 @@ export default {
   },
   computed: {
     uniqueTurmas() {
-      const turmas = this.tableData.map(row => row.turma);
+      const turmas = this.tableData.map((row) => row.turma);
       return [...new Set(turmas)];
     },
     filteredTableData() {
-      return this.tableData.filter(row => {
-        const turmaMatch = !this.selectedTurma || row.turma === this.selectedTurma;
+      return this.tableData.filter((row) => {
+        const turmaMatch =
+          !this.selectedTurma || row.turma === this.selectedTurma;
         const dateMatch = this.filterByDate(row.criado);
         return turmaMatch && dateMatch;
       });
@@ -149,25 +143,35 @@ export default {
     },
     totalPages() {
       return Math.ceil(this.filteredTableData.length / this.itemsPerPage);
-    }
+    },
   },
   methods: {
     async fetchTableData() {
+      console.log("Buscando dados...");
       try {
-        const response = await fetch("http://localhost:8080/results", {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
+        const response = await Api.get("/results/summaries");
+
+        // if (!response.ok) {
+        //   throw new Error(`Erro ao buscar os dados: ${response.statusText}`);
+        // }
+
+        const data = response.data;
+
+        // 2024-11-28T23:14:13.781+00:00
+
+        // Formata a data para o formato dd/mm/yyyy e remove a hora
+        data.forEach((row) => {
+          const [date] = row.created.split("T");
+          row.created = date.split("-").reverse().join("/");
+
+          const date2 = row.application;
+          row.application = date2.split("-").reverse().join("/");
         });
 
-        if (!response.ok) {
-          throw new Error(`Erro ao buscar os dados: ${response.statusText}`);
-        }
+        // 2024-11-30
+        // Formata a data application para dd/mm/yyyy
+        data.forEach;
 
-        const data = await response.json();
-
-        // Preenche o array tableData com os dados recebidos
         this.tableData = data;
       } catch (error) {
         console.error("Erro na requisição:", error);
@@ -178,16 +182,17 @@ export default {
       this.$router.push("/home-admin");
     },
     selectRow(index) {
-      this.selectedRow = (this.selectedRow === index) ? null : index; 
+      this.selectedRow = this.selectedRow === index ? null : index;
     },
     formatDate(date) {
-      if (typeof date === 'string') {
-        date = new Date(date.split('.').reverse().join('-')); 
+      if (typeof date === "string") {
+        date = new Date(date.split(".").reverse().join("-"));
       }
-      return date instanceof Date ? date.getDate() : null; 
+      return date instanceof Date ? date.getDate() : null;
     },
     filterByDate(date) {
-      if (!this.selectedDateRange || this.selectedDateRange.length !== 2) return true;
+      if (!this.selectedDateRange || this.selectedDateRange.length !== 2)
+        return true;
 
       const [startDate, endDate] = this.selectedDateRange;
       const [day, month, year] = date.split(".");
@@ -207,10 +212,13 @@ export default {
       }
     },
 
-    mountTable() {
-    this.fetchTableData();
-    }
-  }
+    async mountTable() {
+      await this.fetchTableData();
+    },
+  },
+  mounted() {
+    this.mountTable();
+  },
 };
 </script>
 
@@ -248,7 +256,7 @@ h2 {
 }
 
 select option {
-  color: black; 
+  color: black;
 }
 
 select {
@@ -256,8 +264,8 @@ select {
   color: rgb(168, 159, 159);
   border: 1px solid #cccccca6;
   border-radius: 4px;
-  background-color: #fff; 
-  font-size: 1rem; 
+  background-color: #fff;
+  font-size: 1rem;
   transition: border-color 0.3s;
 }
 
@@ -266,14 +274,13 @@ select:hover {
 }
 
 .datepicker-class {
-  border: none; 
+  border: none;
   box-shadow: none;
 }
 
-
 select:focus {
-  outline: none; 
-  border-color: #26303a88; 
+  outline: none;
+  border-color: #26303a88;
   box-shadow: 0 0 3px rgba(5, 6, 7, 0.5);
 }
 
@@ -282,9 +289,9 @@ select:focus {
   width: 100%;
   border: 1px solid #dddddd85;
   text-align: center;
-  border-spacing: 0; 
-  border-radius: 20px; 
-  overflow: hidden; 
+  border-spacing: 0;
+  border-radius: 20px;
+  overflow: hidden;
 }
 
 .results-table th {
@@ -328,5 +335,4 @@ select:focus {
 .pagination-info {
   font-size: 1rem;
 }
-
 </style>
