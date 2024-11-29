@@ -1,7 +1,9 @@
 <template>
   <div>
     <HeaderClassifica />
-    <div class="flex flex-col items-center justify-center min-h-screen bg-gray-100">
+    <div
+      class="flex flex-col items-center justify-center min-h-screen bg-gray-100"
+    >
       <div class="text-center mb-8">
         <h2 class="text-2xl font-semibold text-gray-800">Olá, Professor</h2>
       </div>
@@ -10,7 +12,9 @@
       <div class="bg-white p-8 rounded-lg w-full max-w-4xl mb-8">
         <div class="flex flex-row justify-between items-start">
           <!-- Calendário (Centralizado no topo) -->
-          <div class="w-60% flex flex-col items-center justify-center border-black border-2 rounded">
+          <div
+            class="w-60% flex flex-col items-center justify-center border-black border-2 rounded"
+          >
             <div class="bg-gray-100 p-4 rounded-lg w-full">
               <h3 class="text-xl font-semibold mb-4 text-center">Outubro</h3>
               <div class="grid grid-cols-7 gap-2">
@@ -29,14 +33,16 @@
           <!-- Botões Cadastrar (Alteração para tamanho) -->
           <div class="w-38% flex flex-col items-center space-y-4">
             <div class="w-full h-48% border-black border-2 rounded">
-              <button @click="goToRegisterExam"
+              <button
+                @click="goToRegisterExam"
                 class="w-full h-full bg-white-500 text-black py-12 px-4 rounded-md hover:bg-gray-600"
               >
                 Cadastrar novo<br />Simulado
               </button>
             </div>
             <div class="w-full h-48% border-black border-2 rounded">
-              <button  @click="goToRegisterResult"
+              <button
+                @click="goToRegisterResult"
                 class="w-full h-full bg-white-500 text-black py-12 px-4 rounded-md hover:bg-gray-600"
               >
                 Cadastrar<br />Resultados
@@ -47,7 +53,9 @@
       </div>
 
       <!-- Navegação e botões -->
-      <div class="bg-white rounded-lg w-full max-w-4xl flex flex-col items-center justify-center">
+      <div
+        class="bg-white rounded-lg w-full max-w-4xl flex flex-col items-center justify-center"
+      >
         <div class="relative w-full flex justify-center">
           <button
             @click="prev"
@@ -66,6 +74,7 @@
               class="flex justify-center items-center w-1/5 min-w-[140px] h-24 border-black border-2 rounded transition-opacity duration-500"
             >
               <button
+                @click="handleNavigation(button)"
                 class="bg-white-500 text-black py-8 px-4 rounded-md hover:bg-gray-600 w-full h-full flex items-center justify-center text-center"
               >
                 {{ button }}
@@ -94,7 +103,9 @@
 
       <!-- Métricas Gerais -->
       <div class="bg-white rounded-lg w-full max-w-4xl p-8 mt-8">
-        <h3 class="text-lg font-semibold mb-4 text-gray-800">Métricas Gerais</h3>
+        <h3 class="text-lg font-semibold mb-4 text-gray-800">
+          Métricas Gerais
+        </h3>
         <div class="grid grid-cols-2 gap-4">
           <!-- Gráfico 1: Desempenho Geral -->
           <div class="bg-green-100 p-6 rounded-lg h-72">
@@ -155,10 +166,24 @@ export default {
   },
   methods: {
     goToRegisterExam() {
-        this.$router.push("/register-exam");
+      this.$router.push("/register-exam");
     },
     goToRegisterResult() {
-        this.$router.push("/register-result");
+      this.$router.push("/register-result");
+    },
+    handleNavigation(button) {
+      const routes = {
+        "Consultar Resultados": "/query-results",
+        "Consultar Simulados": "/query-exams",
+        "Consultar Turmas": "/query-classes",
+        "Consultar Alunos": "/query-students",
+        "Cadastrar Turma": "/register-class",
+        "Cadastrar Aluno": "/register-student",
+      };
+      const route = routes[button];
+      if (route) {
+        this.$router.push(route);
+      }
     },
     next() {
       if (this.currentPage < this.totalPages - 1) {

@@ -16,7 +16,7 @@ const routes = [
     path: "/",
     name: "Login",
     meta: {
-      title: "Login"
+      title: "Login",
     },
     component: Login,
   },
@@ -24,7 +24,7 @@ const routes = [
     path: "/home-admin",
     name: "HomeAdmin",
     meta: {
-      title: "Início - Coordenação"
+      title: "Início - Coordenação",
     },
     component: HomeAdmin,
   },
@@ -32,7 +32,7 @@ const routes = [
     path: "/query-results",
     name: "QueryResults",
     meta: {
-      title: "Resultado: consultar"
+      title: "Resultado: consultar",
     },
     component: QueryResults,
   },
@@ -40,7 +40,7 @@ const routes = [
     path: "/query-students",
     name: "QueryStudents",
     meta: {
-      title: "Aluno: consultar"
+      title: "Aluno: consultar",
     },
     component: QueryStudents,
   },
@@ -48,7 +48,7 @@ const routes = [
     path: "/query-exams",
     name: "QueryExams",
     meta: {
-      title: "Simulado: consultar"
+      title: "Simulado: consultar",
     },
     component: QueryExams,
   },
@@ -56,7 +56,7 @@ const routes = [
     path: "/query-classes",
     name: "QueryClass",
     meta: {
-      title: "Turma: connsultar"
+      title: "Turma: consultar",
     },
     component: QueryClass,
   },
@@ -64,7 +64,7 @@ const routes = [
     path: "/class-detail/:id",
     name: "class-detail",
     meta: {
-      title: "Turma: detalhes"
+      title: "Turma: detalhes",
     },
     component: ClassDetails,
   },
@@ -72,7 +72,7 @@ const routes = [
     path: "/edit-class",
     name: "EditClass",
     meta: {
-      title: "Turma: editar"
+      title: "Turma: editar",
     },
     component: EditClass,
   },
@@ -80,7 +80,7 @@ const routes = [
     path: "/register-exam",
     name: "RegisterExam",
     meta: {
-      title: "Simulado: cadastrar"
+      title: "Simulado: cadastrar",
     },
     component: RegisterExam,
   },
@@ -88,7 +88,7 @@ const routes = [
     path: "/register-result",
     name: "RegisterResults",
     meta: {
-      title: "Resultado: cadastrar"
+      title: "Resultado: cadastrar",
     },
     component: RegisterResults,
   },
@@ -96,10 +96,10 @@ const routes = [
     path: "/view-student",
     name: "ViewStudent",
     meta: {
-      title: "Aluno: detalhes"
+      title: "Aluno: detalhes",
     },
     component: ViewStudent,
-  }
+  },
   // Redireciona para /login por padrão se o usuário acessar uma rota inexistente
   // {
   //   path: "/:catchAll(.*)",
@@ -113,6 +113,6 @@ const router = createRouter({
 });
 
 router.beforeEach((to) => {
-  document.title = to.meta?.title ?? "Classifica"
-})
+  document.title = to.meta?.title ?? "Classifica";
+});
 export default router;
