@@ -4,8 +4,10 @@ import HomeAdmin from "@/pages/HomeAdmin.vue"; // Importe o componente HomeAdmin
 import QueryResults from "@/pages/QueryResults.vue";
 import QueryExams from "@/pages/QueryExams.vue";
 import QueryClass from "@/pages/QueryClass.vue";
+import QueryStudents from "@/pages/QueryStudents.vue";
 import ClassDetails from "@/pages/ClassDetails.vue";
 import EditClass from "@/pages/EditClass.vue";
+import RegisterExam from "@/pages/RegisterExam.vue";
 import RegisterResults from "@/pages/RegisterResults.vue";
 import ViewStudent from "@/pages/ViewStudent.vue";
 
@@ -26,6 +28,11 @@ const routes = [
     component: QueryResults,
   },
   {
+    path: "/query-students",
+    name: "QueryStudents",
+    component: QueryStudents,
+  },
+  {
     path: "/query-exams",
     name: "QueryExams",
     component: QueryExams,
@@ -44,6 +51,11 @@ const routes = [
     path: "/edit-class",
     name: "EditClass",
     component: EditClass,
+  },
+  {
+    path: "/register-exam",
+    name: "RegisterExam",
+    component: RegisterExam,
   },
   {
     path: "/register-result",

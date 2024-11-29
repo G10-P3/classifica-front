@@ -29,14 +29,14 @@
           <!-- Botões Cadastrar (Alteração para tamanho) -->
           <div class="w-38% flex flex-col items-center space-y-4">
             <div class="w-full h-48% border-black border-2 rounded">
-              <button
+              <button @click="goToRegisterExam"
                 class="w-full h-full bg-white-500 text-black py-12 px-4 rounded-md hover:bg-gray-600"
               >
                 Cadastrar novo<br />Simulado
               </button>
             </div>
             <div class="w-full h-48% border-black border-2 rounded">
-              <button
+              <button  @click="goToRegisterResult"
                 class="w-full h-full bg-white-500 text-black py-12 px-4 rounded-md hover:bg-gray-600"
               >
                 Cadastrar<br />Resultados
@@ -154,6 +154,12 @@ export default {
     },
   },
   methods: {
+    goToRegisterExam() {
+        this.$router.push("/register-exam");
+    },
+    goToRegisterResult() {
+        this.$router.push("/register-result");
+    },
     next() {
       if (this.currentPage < this.totalPages - 1) {
         this.currentPage++;
