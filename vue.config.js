@@ -3,7 +3,14 @@ const webpack = require("webpack");
 module.exports = {
   transpileDependencies: true,
   devServer: {
-    port: 3000, // Altere para a porta desejada
+    port: 3000, // Porta do servidor do Vue.js
+    proxy: {
+      "/classes": {
+        target: "http://localhost:8080", // URL do back-end
+        changeOrigin: true, // Permite alterar a origem para evitar problemas de CORS
+        pathRewrite: { "^/classes": "/classes" }, // Mantém o caminho da API
+      },
+    },
   },
   configureWebpack: {
     resolve: {

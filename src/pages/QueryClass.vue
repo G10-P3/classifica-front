@@ -31,32 +31,28 @@
         <!-- Tabela de turmas -->
         <table class="results-table">
           <thead>
-            <tr>
-              <th>Turma</th>
-              <th>Turno</th>
-              <th>Quantidade de Alunos</th>
-              <th>Média da Turma</th>
-            </tr>
+          <tr>
+            <th>Turma</th>
+            <th>Turno</th>
+            <th>Quant. de Alunos</th>
+            <th>Média da Turma</th>
+          </tr>
           </thead>
           <tbody>
-            <tr
+          <tr
               v-for="turma in paginatedTurmas"
-              :key="turma.id"
-              @click="selectTurma"
-              :class="{
-                'bg-blue-50': selectedTurma === turma,
-                'cursor-pointer': true,
-                'hover:bg-gray-100': true
-              }"
-            >
-              <td>{{ turma.nome }}</td>
-              <td>{{ turma.turno }}</td>
-              <td>{{ turma.qtdAlunos }}</td>
-              <td>{{ turma.media }}</td>
-            </tr>
+              :key="turma.className"
+          >
+            <td>{{ turma.className }}</td>
+            <td>{{ turma.description || 'N/A' }}</td>
+            <td>{{ turma.studentCount }}</td>
+            <td>{{ turma.average.toFixed(2) }}</td>
+          </tr>
           </tbody>
         </table>
-  
+
+
+
         <!-- Paginação -->
         <div v-if="totalPages > 1" class="pagination">
           <button
@@ -76,199 +72,20 @@
       </div>
     </div>
   </template>
-  
-  <script>
-  import HeaderClassifica from "@/components/organisms/HeaderClassifica.vue";
-  
-  export default {
-    name: "QueryResults",
-    components: {
-      HeaderClassifica,
-    },
-    data() {
-      return {
-        searchQuery: "",
-        turmas: [
-          {
-            id: 1,
-            nome: "3º ano A",
-            turno: "Manhã",
-            qtdAlunos: 10,
-            media: 9.4,
-            alunos: [
-              { id: 1, nome: "Ana", idade: 15, contato: "9999-9999", media: 9.6 },
-              { id: 2, nome: "João", idade: 14, contato: "8888-8888", media: 9.2 },
-            ],
-          },
-          {
-            id: 2,
-            nome: "3º ano B",
-            turno: "Manhã",
-            qtdAlunos: 12,
-            media: 8.9,
-            alunos: [
-              { id: 1, nome: "Maria", idade: 15, contato: "9999-9999", media: 8.8 },
-              { id: 2, nome: "Pedro", idade: 14, contato: "8888-8888", media: 9.0 },
-            ],
-          },
-          {
-            id: 3,
-            nome: "4º ano B",
-            turno: "Tarde",
-            qtdAlunos: 10,
-            media: 8.9,
-            alunos: [
-              { id: 1, nome: "Maria", idade: 15, contato: "9999-9999", media: 8.8 },
-              { id: 2, nome: "Pedro", idade: 14, contato: "8888-8888", media: 9.0 },
-              { id: 3, nome: "Gabriel", idade: 14, contato: "7777-7777", media: 7.5 },
-            ],
-          },
-          {
-            id: 4,
-            nome: "5º ano A",
-            turno: "Manhã",
-            qtdAlunos: 15,
-            media: 9.2,
-            alunos: [
-                { id: 1, nome: "Carlos", idade: 11, contato: "5555-5555", media: 9.3 },
-                { id: 2, nome: "Mariana", idade: 10, contato: "4444-4444", media: 9.0 },
-                { id: 3, nome: "Lucas", idade: 12, contato: "3333-3333", media: 9.5 },
-            ],
-            },
-            {
-            id: 5,
-            nome: "6º ano B",
-            turno: "Tarde",
-            qtdAlunos: 18,
-            media: 8.7,
-            alunos: [
-                { id: 1, nome: "Renata", idade: 12, contato: "2222-2222", media: 8.6 },
-                { id: 2, nome: "Roberto", idade: 11, contato: "1111-1111", media: 8.8 },
-                { id: 3, nome: "Fernanda", idade: 12, contato: "6666-6666", media: 8.9 },
-            ],
-            },
-            {
-            id: 6,
-            nome: "7º ano A",
-            turno: "Manhã",
-            qtdAlunos: 20,
-            media: 8.5,
-            alunos: [
-                { id: 1, nome: "Isabela", idade: 13, contato: "7777-7777", media: 8.4 },
-                { id: 2, nome: "Gabriel", idade: 13, contato: "8888-8888", media: 8.6 },
-                { id: 3, nome: "Ana", idade: 13, contato: "9999-9999", media: 8.5 },
-            ],
-            },
-            {
-            id: 7,
-            nome: "8º ano B",
-            turno: "Tarde",
-            qtdAlunos: 22,
-            media: 9.0,
-            alunos: [
-                { id: 1, nome: "Tiago", idade: 14, contato: "5555-5555", media: 9.2 },
-                { id: 2, nome: "Bruna", idade: 14, contato: "4444-4444", media: 8.9 },
-                { id: 3, nome: "Lúcia", idade: 14, contato: "3333-3333", media: 9.0 },
-            ],
-            },
-            {
-            id: 8,
-            nome: "9º ano A",
-            turno: "Manhã",
-            qtdAlunos: 17,
-            media: 9.3,
-            alunos: [
-                { id: 1, nome: "Felipe", idade: 15, contato: "2222-2222", media: 9.5 },
-                { id: 2, nome: "Larissa", idade: 15, contato: "1111-1111", media: 9.0 },
-                { id: 3, nome: "Paula", idade: 15, contato: "6666-6666", media: 9.4 },
-            ],
-            },
-            {
-            id: 9,
-            nome: "3º ano C",
-            turno: "Noite",
-            qtdAlunos: 12,
-            media: 8.8,
-            alunos: [
-                { id: 1, nome: "Pedro", idade: 16, contato: "7777-7777", media: 8.7 },
-                { id: 2, nome: "Júlia", idade: 16, contato: "8888-8888", media: 9.0 },
-                { id: 3, nome: "Rafael", idade: 16, contato: "9999-9999", media: 8.5 },
-            ],
-            },
-            {
-            id: 10,
-            nome: "5º ano B",
-            turno: "Manhã",
-            qtdAlunos: 14,
-            media: 8.3,
-            alunos: [
-                { id: 1, nome: "Carlos", idade: 11, contato: "4444-4444", media: 8.0 },
-                { id: 2, nome: "Marcela", idade: 11, contato: "5555-5555", media: 8.5 },
-                { id: 3, nome: "Luiz", idade: 11, contato: "6666-6666", media: 8.4 },
-            ],
-            },
-            {
-            id: 11,
-            nome: "4º ano A",
-            turno: "Manhã",
-            qtdAlunos: 16,
-            media: 8.4,
-            alunos: [
-                { id: 1, nome: "Miguel", idade: 10, contato: "7777-7777", media: 8.5 },
-                { id: 2, nome: "Beatriz", idade: 10, contato: "8888-8888", media: 8.3 },
-                { id: 3, nome: "Gabriela", idade: 10, contato: "9999-9999", media: 8.2 },
-            ],
-            },
-            {
-            id: 12,
-            nome: "6º ano C",
-            turno: "Tarde",
-            qtdAlunos: 14,
-            media: 8.9,
-            alunos: [
-                { id: 1, nome: "Vinícius", idade: 11, contato: "6666-6666", media: 9.0 },
-                { id: 2, nome: "Sofia", idade: 11, contato: "5555-5555", media: 8.8 },
-                { id: 3, nome: "Amanda", idade: 11, contato: "4444-4444", media: 9.1 },
-            ],
-            },
-            {
-            id: 13,
-            nome: "7º ano B",
-            turno: "Manhã",
-            qtdAlunos: 19,
-            media: 8.6,
-            alunos: [
-                { id: 1, nome: "Eduardo", idade: 12, contato: "3333-3333", media: 8.7 },
-                { id: 2, nome: "Larissa", idade: 12, contato: "4444-4444", media: 8.4 },
-                { id: 3, nome: "Carlos", idade: 12, contato: "5555-5555", media: 8.8 },
-            ],
-            },
-            {
-            id: 14,
-            nome: "8º ano A",
-            turno: "Tarde",
-            qtdAlunos: 23,
-            media: 9.1,
-            alunos: [
-                { id: 1, nome: "Pedro", idade: 13, contato: "2222-2222", media: 9.2 },
-                { id: 2, nome: "Mariana", idade: 13, contato: "3333-3333", media: 9.1 },
-                { id: 3, nome: "Thiago", idade: 13, contato: "4444-4444", media: 9.0 },
-            ],
-            },
-            {
-            id: 15,
-            nome: "9º ano B",
-            turno: "Noite",
-            qtdAlunos: 20,
-            media: 8.7,
-            alunos: [
-                { id: 1, nome: "Gustavo", idade: 14, contato: "5555-5555", media: 8.6 },
-                { id: 2, nome: "Clara", idade: 14, contato: "4444-4444", media: 8.8 },
-                { id: 3, nome: "Raul", idade: 14, contato: "3333-3333", media: 8.9 },
-            ],
-            }
 
-            ],
+<script>
+import axios from "axios";
+import HeaderClassifica from "@/components/organisms/HeaderClassifica.vue";
+
+export default {
+  name: "QueryResults",
+  components: {
+    HeaderClassifica,
+  },
+  data() {
+    return {
+      searchQuery: "",
+      turmas: [],
       selectedTurma: null,
       currentPage: 1,
       itemsPerPage: 10,
@@ -276,9 +93,11 @@
   },
   computed: {
     filteredTurmas() {
-      return this.turmas.filter((turma) =>
-        turma.nome.toLowerCase().includes(this.searchQuery.toLowerCase())
+      const filtered = this.turmas.filter((turma) =>
+          turma.className.toLowerCase().includes(this.searchQuery.toLowerCase())
       );
+      console.log("Filtrando turmas:", filtered);
+      return filtered;
     },
     totalPages() {
       const totalItems = this.filteredTurmas.length;
@@ -287,12 +106,27 @@
     paginatedTurmas() {
       const startIndex = (this.currentPage - 1) * this.itemsPerPage;
       const endIndex = startIndex + this.itemsPerPage;
-      return this.filteredTurmas.slice(startIndex, endIndex);
+      const paginated = this.filteredTurmas.slice(startIndex, endIndex);
+      console.log("Turmas paginadas:", paginated);
+      return paginated;
     },
   },
   methods: {
-    selectTurma() {
-      this.$router.push("/class-detail");
+    // Método para buscar as turmas do back-end
+    fetchTurmas() {
+      axios
+          .get("/classes/with-average")
+          .then((response) => {
+            console.log("Dados recebidos:", response.data);
+            this.turmas = response.data;
+          })
+          .catch((error) => {
+            console.error("Erro ao buscar turmas:", error);
+          });
+    }
+    ,
+    selectTurma(turma) {
+      this.selectedTurma = turma;
     },
     goHome() {
       this.$router.push("/home-admin");
@@ -301,8 +135,13 @@
       this.currentPage = page;
     },
   },
+  mounted() {
+    this.fetchTurmas();
+  },
 };
 </script>
+
+
 
 <style scoped>
 .page-container {
