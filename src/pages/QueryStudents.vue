@@ -31,39 +31,40 @@
             />
           </div>
         </div>
-  
+
         <table class="results-table">
           <thead>
-            <tr>
-              <th>Nome</th>
-              <th>Turma</th>
-              <th>Idade</th>
-              <th>Média do aluno</th>
-            </tr>
+          <tr>
+            <th>Nome</th>
+            <th>Turma</th>
+            <th>Idade</th>
+            <th>Média do aluno</th>
+          </tr>
           </thead>
           <tbody>
-            <tr
+          <tr
               v-for="(row, index) in paginatedTableData"
               :key="index"
               @click="selectRow(index)"
               :class="{ 'bg-blue-50': selectedRow === index }"
-            >
-              <td class="flex items-center justify-start gap-2">
-                <img
+          >
+            <td class="flex items-center justify-start gap-2">
+              <img
                   :src="require('@/assets/search.png')"
                   alt="search-icon"
                   class="search-icon cursor-pointer"
                   @click="goToDetails(row)"
-                />
-                <span class="text-center flex-1">{{ row.aluno }}</span>
-              </td>
-              <td>{{ row.turma }}</td>
-              <td>{{ row.idade }}</td>
-              <td>{{ row.media }}</td>
-            </tr>
+              />
+              <span class="text-center flex-1">{{ row.fullName }}</span>
+            </td>
+            <td>{{ row.turma }}</td>
+            <td>{{ row.idade }}</td>
+            <td>{{ row.media }}</td>
+          </tr>
           </tbody>
         </table>
-  
+
+
         <!-- Paginação -->
         <div v-if="tableData.length > 10" class="pagination-controls flex justify-end mt-4">
           <button
@@ -88,7 +89,9 @@
   
   <script>
   import HeaderClassifica from "@/components/organisms/HeaderClassifica.vue";
-  
+  import axios from "axios";
+
+
   export default {
     name: "QueryStudents",
     components: {
@@ -96,28 +99,19 @@
     },
     data() {
       return {
-        tableData: [
-          { aluno: "Lucas", turma: "6º ano", turno: "Manhã", idade: "10", media: "8,2" },
-          { aluno: "Fabio", turma: "5º ano", turno: "Manhã", idade: "9", media: "8,7" },
-          { aluno: "Vinicius", turma: "6º ano", turno: "Manhã", idade: "9", media: "7,9" },
-          { aluno: "Erico", turma: "4º ano", turno: "Manhã", idade: "9", media: "9,2" },
-          { aluno: "Erico", turma: "4º ano", turno: "Manhã", idade: "9", media: "9,2" },
-        ],
-        searchName: "", // Campo para busca pelo nome
+        tableData: [], // Dados da tabela
+        searchName: "", // Campo de busca
         selectedRow: null,
-        selectedTurma: "",
         currentPage: 1,
         itemsPerPage: 10,
       };
     },
     computed: {
       filteredTableData() {
-        // Filtro para nome e turma
-        return this.tableData.filter((row) => {
-          const nameMatch = row.aluno.toLowerCase().includes(this.searchName.toLowerCase());
-          const turmaMatch = !this.selectedTurma || row.turma === this.selectedTurma;
-          return nameMatch && turmaMatch;
-        });
+        // Filtrar os dados com base na busca
+        return this.tableData.filter((row) =>
+            row.fullName.toLowerCase().includes(this.searchName.toLowerCase())
+        );
       },
       paginatedTableData() {
         const startIndex = (this.currentPage - 1) * this.itemsPerPage;
@@ -129,6 +123,20 @@
       },
     },
     methods: {
+      async fetchStudents() {
+        try {
+          const response = await axios.get("http://localhost:8080/students/details");
+          this.tableData = response.data.map((student) => ({
+            fullName: student.fullName, // Nome completo
+            turma: student.className, // Nome da turma
+            idade: student.age, // Idade
+            media: student.average.toFixed(1), // Média com 1 casa decimal
+          }));
+        } catch (error) {
+          console.error("Erro ao buscar alunos:", error);
+          alert("Erro ao carregar os dados dos alunos.");
+        }
+      },
       goHome() {
         this.$router.push("/home-admin");
       },
@@ -136,7 +144,7 @@
         this.selectedRow = this.selectedRow === index ? null : index;
       },
       goToDetails(row) {
-        this.$router.push({ path: "/details", query: { ref: row.aluno } });
+        this.$router.push({ path: "/details", query: { ref: row.fullName } });
       },
       goToPreviousPage() {
         if (this.currentPage > 1) {
@@ -149,7 +157,11 @@
         }
       },
     },
+    created() {
+      this.fetchStudents(); // Buscar os dados ao carregar o componente
+    },
   };
+
   </script>
   
   <style scoped>
@@ -268,4 +280,3 @@
   }
   
   </style>
-  
