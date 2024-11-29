@@ -18,12 +18,13 @@
         <div class="form-group">
           <label for="exam-name">Nome do Simulado</label>
           <input
-            v-model="examName"
-            type="text"
-            id="exam-name"
-            placeholder="Digite o nome do simulado"
-            class="input-field"
+              v-model="simulatedName"
+              type="text"
+              id="exam-name"
+              placeholder="Digite o nome do simulado"
+              class="input-field"
           />
+
         </div>
 
         <div class="form-group">
@@ -35,10 +36,11 @@
           <label for="simulated-class">Turma</label>
           <select v-model="selectedClass" id="simulated-class" class="input-field">
             <option disabled value="">Selecione a turma</option>
-            <option v-for="classOption in classOptions" :key="classOption" :value="classOption">
-              {{ classOption }}
+            <option v-for="classOption in classOptions" :key="classOption.id" :value="classOption.id">
+              {{ classOption.name }}
             </option>
           </select>
+
         </div>
 
         <div class="form-group">
@@ -102,9 +104,9 @@
     </form>
   </div>
 </template>
-
 <script>
 import HeaderClassifica from "@/components/organisms/HeaderClassifica.vue";
+import axios from "axios";
 
 export default {
   name: "RegisterExam",
@@ -115,7 +117,7 @@ export default {
     return {
       simulatedName: "",
       simulatedDate: "",
-      selectedClass: "",
+      selectedClass: "", // Deve conter o ID da turma selecionada
       totalQuestions: 0,
       subjects: {
         math: false,
@@ -124,37 +126,110 @@ export default {
       mathQuestions: 0,
       portugueseQuestions: 0,
       observations: "",
-      classOptions: ["Turma A", "Turma B", "Turma C"],
+      classOptions: [], // Receberá os dados das turmas do back-end
     };
   },
+
+  created() {
+    this.fetchClasses(); // Carrega as turmas ao criar o componente
+  },
+
   methods: {
+    async fetchClasses() {
+      try {
+        const response = await axios.get("http://localhost:8080/classes");
+        console.log("Dados retornados:", response.data);
+        this.classOptions = response.data.map((classe) => ({
+          id: classe.id,
+          name: classe.className,
+        }));
+      } catch (error) {
+        console.error("Erro ao buscar turmas:", error);
+        alert("Erro ao carregar as turmas. Tente novamente.");
+      }
+    }
+
+    ,
+
     goBack() {
       this.$router.push("/home-admin");
     },
-    registerSimulated() {
-      if (!this.simulatedName || !this.simulatedDate || !this.selectedClass) {
-        alert("Por favor, preencha os campos obrigatórios!");
+    async registerSimulated() {
+      // Validação dos campos obrigatórios
+      if (!this.simulatedName || !this.simulatedName.trim()) {
+        alert("O nome do simulado é obrigatório!");
+        return;
+      }
+      if (!this.simulatedDate) {
+        alert("A data do simulado é obrigatória!");
+        return;
+      }
+      if (!this.selectedClass || this.selectedClass === "") {
+        alert("Por favor, selecione uma turma!");
         return;
       }
 
-      const simulatedData = {
-        name: this.simulatedName,
-        date: this.simulatedDate,
-        class: this.selectedClass,
-        totalQuestions: this.totalQuestions,
-        subjects: {
-          math: this.subjects.math ? this.mathQuestions : 0,
-          portuguese: this.subjects.portuguese ? this.portugueseQuestions : 0,
-        },
-        observations: this.observations,
-      };
+      // Validação das questões de matemática e português
+      if (this.subjects.math && (!this.mathQuestions || this.mathQuestions <= 0)) {
+        alert("Número de questões de matemática deve ser maior que 0!");
+        return;
+      }
+      if (this.subjects.portuguese && (!this.portugueseQuestions || this.portugueseQuestions <= 0)) {
+        alert("Número de questões de português deve ser maior que 0!");
+        return;
+      }
 
-      console.log("Simulado cadastrado:", simulatedData);
-      alert("Simulado cadastrado com sucesso!");
-    },
+      // Verifica se o número total de questões é maior que 0
+      if (!this.totalQuestions || this.totalQuestions <= 0) {
+        alert("O número total de questões deve ser maior que 0!");
+        return;
+      }
+
+      try {
+        // Dados a serem enviados para o back-end
+        const simulatedData = {
+          name: this.simulatedName.trim(), // Remove espaços extras
+          date: this.simulatedDate,
+          questionsQuantity: this.totalQuestions,
+          mathQuestionsQuantity: this.subjects.math ? this.mathQuestions : 0,
+          portugueseQuestionsQuantity: this.subjects.portuguese
+              ? this.portugueseQuestions
+              : 0,
+          observations: this.observations.trim() || null, // Remove espaços e permite nulo
+          classes: [this.selectedClass], // Adicionando a classe selecionada
+        };
+
+        // Adicionando logs para debug
+        console.log("Payload enviado:", simulatedData);
+
+        // Enviar requisição POST para o back-end
+        const response = await axios.post("http://localhost:8080/exam", simulatedData);
+
+        // Mensagem de sucesso
+        console.log("Simulado cadastrado com sucesso:", response.data);
+        alert("Simulado cadastrado com sucesso!");
+      } catch (error) {
+        // Tratamento de erro
+        console.error("Erro ao cadastrar simulado:", error);
+
+        // Tratamento específico para erro 500
+        if (error.response && error.response.status === 500) {
+          alert(
+              "Erro interno no servidor. Verifique os dados enviados e tente novamente."
+          );
+        } else {
+          alert("Ocorreu um erro ao cadastrar o simulado. Tente novamente.");
+        }
+      }
+    }
+
+
+
+    ,
   },
 };
 </script>
+
 
 <style scoped>
 .page-container {

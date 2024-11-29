@@ -8,7 +8,11 @@ module.exports = {
       "/classes": {
         target: "http://localhost:8080", // URL do back-end
         changeOrigin: true, // Permite alterar a origem para evitar problemas de CORS
-        pathRewrite: { "^/classes": "/classes" }, // Mantém o caminho da API
+        pathRewrite: { "^/classes": "/classes" }, // Mapeia o caminho original
+      },
+      "/exam": {
+        target: "http://localhost:8080", // Caso use a rota para simulado
+        changeOrigin: true,
       },
     },
   },
